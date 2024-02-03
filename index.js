@@ -1,12 +1,13 @@
 const { readFile } = require("fs").promises;
+const fs = require('fs');
 const express = require('express');
 
-var http = require('http');
-var https = require('https');
-var privateKey  = await fs.readFileSync('ssl/serlfsigned.key', 'utf8');
-var certificate = await fs.readFileSync('ssl/serlfsigned.crt', 'utf8');
+const http = require('http');
+const https = require('https');
+const privateKey  = fs.readFileSync('ssl/serlfsigned.key', 'utf8');
+const certificate = fs.readFileSync('ssl/serlfsigned.crt', 'utf8');
 
-var credentials = {key: privateKey, cert: certificate};
+const credentials = {key: privateKey, cert: certificate};
 
 const app = express();
 
