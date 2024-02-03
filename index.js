@@ -4,25 +4,30 @@ const express = require('express');
 
 const http = require('http');
 const https = require('https');
-const islocal = fs.existsSync("./localhost")
+const islocal = fs.existsSync("./localhost");
+
+const credentials = {key: "privateKey", cert: "certificate"};
 
 if (!islocal){
 
     const privateKey  = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/privkey.pem', 'utf8');
     const certificate = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/fullchain.pem', 'utf8');
-    const credentials = {key: privateKey, cert: certificate};
+
+    credentials.key = privateKey;
+    credentials.cert = certificate;
+
 }
-
-
 
 
 const app = express();
 
-console.log()
 
 app.get("/", async (request, response) => {
+
     console.log("Ladies and gents we got ourselfs a visitorrr")
+
     response.send(await readFile('./src/main.html', 'utf-8'));
+
 })
 
 if (!islocal) {
@@ -35,6 +40,8 @@ if (!islocal) {
 
 }
 else {
+
     app.listen(process.env.PORT || 8080, () => {console.log("tvoje lokální máma")})
+    
 }
 
