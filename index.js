@@ -4,8 +4,8 @@ const express = require('express');
 
 const http = require('http');
 const https = require('https');
-const privateKey  = fs.readFileSync('./ssl/selfsigned.key', 'utf8');
-const certificate = fs.readFileSync('./ssl/selfsigned.crt', 'utf8');
+const privateKey  = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/fullchain.pem', 'utf8');
 
 const credentials = {key: privateKey, cert: certificate};
 
