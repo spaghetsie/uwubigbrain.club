@@ -10,4 +10,4 @@ app.get("/", async (requrest, response) => {
     response.send(await readFile('./src/main.html', 'utf-8'));
 })
 
-app.listen(process.env.PORT || 443, () => {console.log("tvoje máma frč9")})
+app.listen(process.env.PORT || 80, () => {console.log("tvoje máma frč9")})
