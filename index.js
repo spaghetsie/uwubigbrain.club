@@ -13,8 +13,8 @@ const app = express();
 
 console.log()
 
-app.get("/", async (requrest, response) => {
-    
+app.get("/", async (request, response) => {
+    console.log("Ladies and gents we got ourselfs a visitorrr")
     response.send(await readFile('./src/main.html', 'utf-8'));
 })
 
