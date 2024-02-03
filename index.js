@@ -42,6 +42,6 @@ if (!islocal) {
 else {
 
     app.listen(process.env.PORT || 8080, () => {console.log("tvoje lokální máma")})
-    
+
 }
 

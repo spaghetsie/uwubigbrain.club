@@ -6,19 +6,45 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>uwu big brain club</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
-    <body>
+    <body style="height: 100vh;">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <h1>Tvoje máma</h1>
+        <h1 id="dvdSaver" style="position: relative; display: inline-block">Tvoje máma</h1>
         
-        <script src="" async defer></script>
+        <script>
+
+            const element = document.getElementById("dvdSaver");
+            const velocity = {x:10, y:10};
+            const bounds = element.parentElement.getBoundingClientRect();
+
+            var intervalId = setInterval(function() {
+                if(element.getBoundingClientRect().bottom+velocity.y >= bounds.bottom) {
+                    velocity.y *= -1;
+                }
+
+                if(element.getBoundingClientRect().top+velocity.y <= bounds.top) {
+                    velocity.y *= -1;
+                }
+
+                if(element.getBoundingClientRect().left+velocity.x <= bounds.left) {
+                    velocity.x *= -1;
+                }
+
+                if(element.getBoundingClientRect().right+velocity.x >= bounds.right) {
+                    velocity.x *= -1;
+                }
+
+                element.style.left = `${Number(element.style.left.slice(0, -2))+velocity.x}px`;
+                element.style.top = `${Number(element.style.top.slice(0, -2))+velocity.y}px`;
+            }, 10);
+
+        </script>
     </body>
 </html>
