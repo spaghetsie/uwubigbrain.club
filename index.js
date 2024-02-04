@@ -19,14 +19,33 @@ if (!islocal){
 }
 
 
-const app = express();
+global.app = express();
+const app = global.app;
+app.use(express.urlencoded());  
 
+app.use(express.static('css'))
 
 app.get("/", async (request, response) => {
 
     console.log("Ladies and gents we got ourselfs a visitorrr")
 
-    response.send(await readFile('./src/main.html', 'utf-8'));
+    response.send(await readFile('./public/main.html', 'utf-8'));
+
+})
+
+app.get("/inteligence", async (request, response) => {
+
+    console.log("Ladies and gents we got ourselfs a visitorrr")
+
+    response.send(await readFile('./public/inteligence/inteligence.html', 'utf-8'));
+
+})
+
+app.post("/inteligence", async (request, response) => {
+
+    console.log("Ladies and gents we got ourselfs a visitorrr")
+    console.log(request.body);
+    response.send(await readFile('./public/inteligence/thankyou.html', 'utf-8'));
 
 })
 
