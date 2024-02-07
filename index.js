@@ -1,6 +1,7 @@
 const { readFile } = require("fs").promises;
 const fs = require('fs');
 const express = require('express');
+const engine = require('express-edge');
 
 const http = require('http');
 const https = require('https');
@@ -21,32 +22,17 @@ if (!islocal){
 
 global.app = express();
 const app = global.app;
-app.use(express.urlencoded());  
 
-app.use(express.static('css'))
+// Automatically sets view engine and adds dot notation to app.render
+app.use(engine);
+app.set('views', `${__dirname}/views`);
+app.use('/css', express.static(`${__dirname}/src/css`))
 
-app.get("/", async (request, response) => {
+// Configure view caching
+//app.enable('view cache');
 
-    console.log("Ladies and gents we got ourselfs a visitorrr")
-
-    response.send(await readFile('./public/main.html', 'utf-8'));
-
-})
-
-app.get("/inteligence", async (request, response) => {
-
-    console.log("Ladies and gents we got ourselfs a visitorrr")
-
-    response.send(await readFile('./public/inteligence/inteligence.html', 'utf-8'));
-
-})
-
-app.post("/inteligence", async (request, response) => {
-
-    console.log("Ladies and gents we got ourselfs a visitorrr")
-    console.log(request.body);
-    response.send(await readFile('./public/inteligence/thankyou.html', 'utf-8'));
-
+app.get('/', (request, response) => {
+  response.render('main', { request });
 })
 
 if (!islocal) {
@@ -54,13 +40,13 @@ if (!islocal) {
     var httpServer = http.createServer(app);
     var httpsServer = https.createServer(credentials, app);
 
-    httpServer.listen(process.env.PORT || 80, () => {console.log("tvoje máma 80kg")})
-    httpsServer.listen(process.env.PORT || 443, () => {console.log("tvoje máma 443kg")})
+    httpServer.listen(process.env.PORT || 80, () => {console.log("Listening on port 80")})
+    httpsServer.listen(process.env.PORT || 443, () => {console.log("Listening on port 443")})
 
 }
 else {
 
-    app.listen(process.env.PORT || 8080, () => {console.log("tvoje lokální máma")})
+    app.listen(process.env.PORT || 8080, () => {console.log("Running on localhost:8080")})
 
 }
 
