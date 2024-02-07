@@ -1,3 +1,7 @@
+/*
+######### GENERAL-END #########
+*/
+
 :root {
 	--color-darkest: rgb(10, 10, 15);
 	--color-primary: rgb(24, 28, 34);
@@ -22,6 +26,15 @@ a {
 	text-decoration: none;
 }
 
+/*
+######### GENERAL-END #########
+*/
+
+
+/*
+######### NAV-START #########
+*/
+
 #navbar {
 	background-color: var(--color-primary);
 	height: 50px;
@@ -41,3 +54,39 @@ a {
 	background-color: var(--color-secondary);
 	color: var(--color-tertiary);
 }
+
+/*
+######### NAV-END #########
+*/
+
+/*
+######### FOOTER-START #########
+*/
+
+footer {
+	width: 100%;
+	height: 50px;
+	align-content: center;
+	display: flex;
+	
+}
+
+footer div {
+	display: inline-block;
+	height: 100%;
+	width: auto;
+	margin: auto;
+}
+
+footer a{
+	display: inline-block;
+	margin: 0;
+	height: 100%;
+	width: 200px;
+	line-height: 50px;
+	text-align: center;
+}
+
+/*
+######### FOOTER-END #########
+*/
