@@ -40,6 +40,11 @@ a:hover {
 	color: var(--color-tertiary);
 }
 
+.highlight-text {
+	font-weight: bold;
+	color: var(--color-tertiary) !important;
+}
+
 /*
 ######### GENERAL-END #########
 */
@@ -58,7 +63,7 @@ a:hover {
 #navbar a{
 	display: inline-block;
 	height: 100%;
-	width: 200px;
+	min-width: 200px;
 	line-height: 50px;
 	color: var(--color-quarternary);
 	text-align: center;
