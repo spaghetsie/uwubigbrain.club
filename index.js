@@ -27,6 +27,8 @@ const app = global.app;
 app.use(engine);
 app.set('views', `${__dirname}/views`);
 app.use('/css', express.static(`${__dirname}/src/css`))
+app.use('/fonts', express.static(`${__dirname}/src/fonts`))
+app.use('/favicon.ico', express.static(`${__dirname}/src/favicon/favicon.ico`))
 
 // Configure view caching
 //app.enable('view cache');

@@ -1,6 +1,13 @@
 /*
-######### GENERAL-END #########
+######### GENERAL-START #########
 */
+
+@font-face {
+	font-family: 'source-sans-pro';
+	src:
+		url("/fonts/Source_Sans_3/SourceSans3-VariableFont_wght.ttf") format('truetype');
+	font-display: swap;
+}
 
 :root {
 	--color-darkest: rgb(10, 10, 15);
@@ -8,22 +15,29 @@
 	--color-secondary: rgb(57, 62, 70);
 	--color-tertiary: rgb(255, 211, 105);
 	--color-quarternary: rgb(238, 238, 238);
+
+	font-family: 'source-sans-pro', sans-serif;
 }
 
 html {
 	background-color: var(--color-darkest);
 	padding: 0;
+
+	color: var(--color-quarternary);
 }
 
 body {
 	padding: 0;
 	margin: 0;
-	height: 999px;
 }
 
 a {
 	color: var(--color-quarternary);
 	text-decoration: none;
+}
+
+a:hover {
+	color: var(--color-tertiary);
 }
 
 /*
@@ -58,6 +72,25 @@ a {
 /*
 ######### NAV-END #########
 */
+
+main {
+	width: 80%;
+	margin: auto;
+	min-height: 80vh;
+	height: auto;
+	display: block;
+}
+
+.centered {
+	position: relative;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.centered-text {
+	text-align: center;
+}
 
 /*
 ######### FOOTER-START #########
