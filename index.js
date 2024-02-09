@@ -26,9 +26,9 @@ const app = global.app;
 // Automatically sets view engine and adds dot notation to app.render
 app.use(engine);
 app.set('views', `${__dirname}/views`);
-app.use('/css', express.static(`${__dirname}/src/css`))
-app.use('/fonts', express.static(`${__dirname}/src/fonts`))
-app.use('/favicon.ico', express.static(`${__dirname}/src/favicon/favicon.ico`))
+app.use('/css', express.static(`${__dirname}/src/css`));
+app.use('/fonts', express.static(`${__dirname}/src/fonts`));
+app.use('/favicon.ico', express.static(`${__dirname}/src/favicon/favicon.ico`));
 
 // Configure view caching
 //app.enable('view cache');
@@ -36,6 +36,11 @@ app.use('/favicon.ico', express.static(`${__dirname}/src/favicon/favicon.ico`))
 app.get('/', (request, response) => {
   response.render('main', { request });
 })
+
+app.use('*', ( req, res) => {
+    res.status(500);
+    res.render('error');
+  })
 
 if (!islocal) {
 

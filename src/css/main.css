@@ -45,6 +45,13 @@ a:hover {
 	color: var(--color-tertiary) !important;
 }
 
+.image {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+}
+
 /*
 ######### GENERAL-END #########
 */
@@ -58,15 +65,19 @@ a:hover {
 	background-color: var(--color-primary);
 	height: 50px;
 	width: 100%;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
 #navbar a{
 	display: inline-block;
 	height: 100%;
-	min-width: 200px;
+	min-width: fit-content;
+	width: 12%;
 	line-height: 50px;
 	color: var(--color-quarternary);
 	text-align: center;
+	padding: 0 10px 0 10px;
 }
 
 #navbar a:hover {
@@ -112,17 +123,20 @@ footer {
 footer div {
 	display: inline-block;
 	height: 100%;
+	overflow-x: visible;
 	width: auto;
 	margin: auto;
 }
 
 footer a{
 	display: inline-block;
-	margin: 0;
+	margin: auto;
 	height: 100%;
-	width: 200px;
 	line-height: 50px;
 	text-align: center;
+
+	min-width: fit-content;
+	padding: 0 3px 0 3px;
 }
 
 /*
