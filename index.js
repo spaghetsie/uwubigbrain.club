@@ -41,9 +41,8 @@ app.get('/epiclegacy', async (request, response) => {
     response.send(await readFile("./public/main.html", "utf-8"))
   })
 
-app.use('*', ( req, res) => {
-    res.status(500);
-    res.render('error');
+app.use(( req, res, next) => {
+    res.status(404).render('error', { res });
   })
 
 if (!islocal) {
