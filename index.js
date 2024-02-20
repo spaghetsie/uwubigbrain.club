@@ -32,7 +32,7 @@ const app = global.app;
 app.use(engine);
 
 app.use(session({
-  secret: "2378d7;.a['{P(U*#NC[a I love cats :)",
+  secret: config.session_secret,
   resave: false,
   saveUninitialized: true
 }))
@@ -97,4 +97,3 @@ else {
   app.listen(process.env.PORT || 8080, () => { console.log("Running on localhost:8080") });
 
 }
-
