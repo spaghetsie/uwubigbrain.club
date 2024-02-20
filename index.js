@@ -83,7 +83,7 @@ app.get('/logout', auth.Logout, (request, response) => {
 })
 
 app.use((request, response, next) => {
-  response.status(404).render('public/error', {response});
+  response.status(404).render('public/error', {response, request});
 }
 )
 
