@@ -72,12 +72,13 @@ a:hover {
 #navbar {
 	background-color: var(--color-primary);
 	height: 50px;
-	width: 100%;
+	width: calc(100% - 120px);
 	overflow-x: auto;
 	white-space: nowrap;
+	display: inline-block;
 }
 
-#navbar a{
+.navbar-el{
 	display: inline-block;
 	height: 100%;
 	min-width: fit-content;
@@ -88,14 +89,18 @@ a:hover {
 	padding: 0 10px 0 10px;
 }
 
-#navbar a:hover {
+#auth-button {
+	float: right;
+	width: 100px;
+	background-color: var(--color-primary);
+}
+
+.navbar-el:hover, #auth-button:hover {
 	background-color: var(--color-secondary);
 	color: var(--color-tertiary);
 }
 
-#auth-button {
-	float: right;
-}
+
 
 /*
 ######### NAV-END #########
