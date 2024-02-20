@@ -1,5 +1,5 @@
-# sketchy localhost file
-/localhost
+# config
+config.js
 
 # Logs
 logs

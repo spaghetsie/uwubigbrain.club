@@ -52,6 +52,14 @@ a:hover {
 	height: auto;
 }
 
+.float-right {
+	float: right;
+}
+
+.float-left {
+	float: left
+}
+
 /*
 ######### GENERAL-END #########
 */
@@ -83,6 +91,10 @@ a:hover {
 #navbar a:hover {
 	background-color: var(--color-secondary);
 	color: var(--color-tertiary);
+}
+
+#auth-button {
+	float: right;
 }
 
 /*
