@@ -92,15 +92,35 @@ a:hover {
 #auth-button {
 	float: right;
 	width: 100px;
+	height: 50px;
 	background-color: var(--color-primary);
 }
 
-.navbar-el:hover, #auth-button:hover {
+.navbar-el:hover {
 	background-color: var(--color-secondary);
 	color: var(--color-tertiary);
 }
 
+.avatar {
+	height: 40px;
+	border-radius: 50%;
+	display: inline-block;
+	padding: 5px;
+}
 
+#auth-button:hover .avatar {
+	display: none;
+}
+
+#auth-button a{
+	width: 100px;
+	height: 50px;
+	display: none;
+}
+
+#auth-button:hover a{
+	display: inline-block;
+}
 
 /*
 ######### NAV-END #########

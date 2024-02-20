@@ -6,10 +6,12 @@
   <main>
     <h1 class="centered centered-text">
       Welcome, 
-      <span style="color:{{banner_color}}">
+      
         @if(request.session.user)
+          <span style="color: color-mix(in srgb, {{request.session.user.banner_color}}, white)">
           {{ request.session.user.username }}
         @else
+          <span>
           traveler
         @end
       </span>, to this mega epic website!

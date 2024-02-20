@@ -78,6 +78,10 @@ app.get("/auth",
   auth.GetUserData
 )
 
+app.get('/logout', auth.Logout, (request, response) => {
+  response.redirect(`${config.Endpoint}/`)
+})
+
 app.use((request, response, next) => {
   response.status(404).render('public/error', {response});
 }

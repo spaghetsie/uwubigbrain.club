@@ -45,7 +45,32 @@ async function GetUserData(request, response, next) {
     .then(data => request.session.user = data)
     .catch(error => response.status(401).render('public/error'));
 
-  response.render('public/main', {request})
+  response.redirect(`${config.Endpoint}/`)
 }
 
-module.exports = {CheckForCode, GetToken, GetUserData}
+async function Logout(request, response, next) {
+
+  if(!request.session.user){
+    next();
+    return;
+  }
+
+  const auth_request = new Request('https://discord.com/api/oauth2/token/revoke', {
+    method: 'POST',
+    body: new URLSearchParams({
+      token: request.session.user.access_token,
+      token_type_hint: 'access_token'
+    }).toString(),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  await fetch(auth_request)
+    .then(() => request.session.destroy())
+    .catch(error => response.status(401).render('public/error'));
+
+  next()
+}
+
+module.exports = {CheckForCode, GetToken, GetUserData, Logout}

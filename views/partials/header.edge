@@ -7,5 +7,13 @@
         <a class="navbar-el" href="{{config.Endpoint}}/link1">Discord</a>
         <a class="navbar-el" href="{{config.Endpoint}}/private/">secret</a>
     </nav>
-    <a id="auth-button" class="highlight-text navbar-el" href="https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri={{config.EndpointUriEncoded}}%2Fauth&scope=identify">Login</a>
+
+    @if(!request.session.user)
+        <a id="auth-button" class="highlight-text navbar-el" href="https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri={{config.EndpointUriEncoded}}%2Fauth&scope=identify">Login</a>
+    @else
+        <span id="auth-button" class="highlight-text navbar-el">
+            <img class="avatar" src=https://cdn.discordapp.com/avatars/{{request.session.user.id}}/{{request.session.user.avatar}}.webp?size=48">
+            <a href="{{config.Endpoint}}/logout" class="centered-text highlight-text">Logout?</a>
+        </span>
+    @end
 </header>
