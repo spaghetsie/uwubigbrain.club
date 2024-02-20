@@ -1,11 +1,11 @@
 require('../../../config.js')
 
 function CheckForCode(request, response, next) {
-
   if (!request.query.code) {
     response.redirect(`https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri=${config.EndpointUriEncoded}%2Fauth&scope=identify`)
     return;
   }
+  request.session.redirectAfterAuth = request.headers.referer;
   next();
 }
 async function GetToken(request, response, next) {
@@ -42,10 +42,10 @@ async function GetUserData(request, response, next) {
     },
   })
     .then(response => response.json())
-    .then(data => response.locals.userdata = data)
+    .then(data => request.session.user = data)
     .catch(error => response.status(401).render('public/error'));
 
-  response.render('public/main', response.locals.userdata)
+  response.render('public/main', {request})
 }
 
 module.exports = {CheckForCode, GetToken, GetUserData}
