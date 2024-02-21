@@ -7,14 +7,14 @@ const session = require('express-session')
 const http = require('http');
 const https = require('https');
 
-const auth = require("./src/js/auth/discord")
+const DiscordAuthRouter = require("./app/auth/discord");
 
-require(`${__dirname}/config.js`)
+require(`./app/config/config.js`)
 config.EndpointUriEncoded = encodeURIComponent(config.Endpoint)
 
-const credentials = { key: "privateKey", cert: "certificate" };
 
 if (!config.IsRunningLocally) {
+  const credentials = {};
 
   const privateKey = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/privkey.pem', 'utf8');
   const certificate = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/fullchain.pem', 'utf8');
@@ -37,22 +37,22 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.set('views', `${__dirname}/views`);
-app.use('/css', express.static(`${__dirname}/src/css`));
-app.use('/fonts', express.static(`${__dirname}/src/fonts`));
-app.use('/favicon.ico', express.static(`${__dirname}/src/favicon/favicon.ico`));
+app.set('views', `${__dirname}/app`);
+app.use('/css', express.static(`./app/resources/css`));
+app.use('/fonts', express.static(`./app/resources/fonts`));
+app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 
 // Configure view caching
 //app.enable('view cache');
 
 app.use('/private/*', (request, response, next) => {
   if(!request.session.user) {
-    response.redirect("/auth");
+    response.redirect("/auth/login");
     return;
   }
 
   if(!config.userIDs.includes(request.session.user.id)) {
-    response.status(401).render('public/error', {response});
+    response.status(401).render('error/error', {response});
     return;
   }
 
@@ -63,29 +63,18 @@ app.use('/private/*', (request, response, next) => {
 
 
 app.get('/', (request, response) => {
-  response.render('public/main', { request });
-}
-)
-
-app.get('/epiclegacy', async (request, response) => {
-  response.send(await readFile("./public/main.html", "utf-8"));
-}
-)
-
-app.get("/auth",
-  auth.CheckForCode,
-  auth.GetToken,
-  auth.GetUserData
-)
-
-app.get('/logout', auth.Logout, (request, response) => {
-  response.redirect(`${config.Endpoint}/`)
+  response.render('main/main', { request });
 })
 
+app.use('/auth', DiscordAuthRouter)
+
 app.use((request, response, next) => {
-  response.status(404).render('public/error', {response, request});
-}
-)
+  response.status(404).render('error/error', {response, request});
+})
+
+app.use((error, request, response, next) => {
+  response.status(500).render('error/error', {response, request})
+})
 
 if (!config.IsRunningLocally) {
 

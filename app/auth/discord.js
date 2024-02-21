@@ -1,11 +1,14 @@
-require('../../../config.js')
+require('../config/config.js')
+const express = require('express');
+
+const DiscordAuthRouter = express.Router();
 
 function CheckForCode(request, response, next) {
   if (!request.query.code) {
-    response.redirect(`https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri=${config.EndpointUriEncoded}%2Fauth&scope=identify`)
+    response.redirect(`https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri=${config.EndpointUriEncoded}%2Fauth%2Flogin&scope=identify`)
     return;
   }
-  request.session.redirectAfterAuth = request.headers.referer;
+
   next();
 }
 async function GetToken(request, response, next) {
@@ -18,7 +21,7 @@ async function GetToken(request, response, next) {
       client_secret: config.client_secret,
       code,
       grant_type: 'authorization_code',
-      redirect_uri: `${config.Endpoint}/auth`,
+      redirect_uri: `${config.Endpoint}/auth/login`,
       scope: 'identify',
     }).toString(),
     headers: {
@@ -29,7 +32,7 @@ async function GetToken(request, response, next) {
   await fetch(auth_request)
     .then(response => response.json())
     .then(data => response.locals.oauthData = data)
-    .catch(error => response.status(401).render('public/error'));
+    .catch(error => response.status(401).render('error/error'));
 
   next()
 }
@@ -43,14 +46,14 @@ async function GetUserData(request, response, next) {
   })
     .then(response => response.json())
     .then(data => request.session.user = data)
-    .catch(error => response.status(401).render('public/error'));
+    .catch(error => response.status(401).render('error/error'));
 
   response.redirect(`${config.Endpoint}/`)
 }
 
 async function Logout(request, response, next) {
 
-  if(!request.session.user){
+  if (!request.session.user) {
     next();
     return;
   }
@@ -68,9 +71,19 @@ async function Logout(request, response, next) {
 
   await fetch(auth_request)
     .then(() => request.session.destroy())
-    .catch(error => response.status(401).render('public/error'));
+    .catch(error => response.status(401).render('error/error'));
 
   next()
 }
 
-module.exports = {CheckForCode, GetToken, GetUserData, Logout}
+DiscordAuthRouter.use('/login',
+  CheckForCode,
+  GetToken,
+  GetUserData
+)
+
+DiscordAuthRouter.use('/logout', Logout, (request, response) => {
+  response.redirect(`${config.Endpoint}/`)
+})
+
+module.exports = DiscordAuthRouter
