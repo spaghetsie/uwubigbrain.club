@@ -13,18 +13,6 @@ require(`./app/config/config.js`)
 config.EndpointUriEncoded = encodeURIComponent(config.Endpoint)
 
 
-if (!config.IsRunningLocally) {
-  const credentials = {};
-
-  const privateKey = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/privkey.pem', 'utf8');
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/fullchain.pem', 'utf8');
-
-  credentials.key = privateKey;
-  credentials.cert = certificate;
-
-}
-
-
 global.app = express();
 const app = global.app;
 
@@ -76,7 +64,17 @@ app.use((error, request, response, next) => {
   response.status(500).render('error/error', {response, request})
 })
 
+
+
+
 if (!config.IsRunningLocally) {
+
+  const credentials = {};
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/privkey.pem', 'utf8');
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/uwubigbrain.club/fullchain.pem', 'utf8');
+
+  credentials.key = privateKey;
+  credentials.cert = certificate;
 
   var httpServer = http.createServer(app);
   var httpsServer = https.createServer(credentials, app);
