@@ -148,9 +148,9 @@ main {
 	text-align: center;
 }
 
-.paragraph {
-	width: 50%;
-	min-width: 500px;
+.section {
+	width: 90%;
+	max-width: 600px;
 	text-align: justify;
 }
 
