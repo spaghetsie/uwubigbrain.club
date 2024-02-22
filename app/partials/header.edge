@@ -20,9 +20,11 @@
         </div>
     @end
 </header>
-<script onload>
-    let Avatar = document.getElementById("profile-mini")
-    let ProfileDetail = document.getElementById("profile-detail")
+@if(request.session.user)
+    <script onload>
+        let Avatar = document.getElementById("profile-mini")
+        let ProfileDetail = document.getElementById("profile-detail")
 
-    Avatar.onclick = () => ProfileDetail.toggleAttribute("hidden")
-</script>
+        Avatar.onclick = () => ProfileDetail.toggleAttribute("hidden")
+    </script>
+@end
