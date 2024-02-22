@@ -56,6 +56,10 @@ app.get('/', (request, response) => {
 
 app.use('/auth', DiscordAuthRouter)
 
+app.get('/about', (request, response) => {
+  response.render('about/about', {request, response})
+})
+
 app.use((request, response, next) => {
   response.status(404).render('error/error', {response, request});
 })
@@ -63,7 +67,6 @@ app.use((request, response, next) => {
 app.use((error, request, response, next) => {
   response.status(500).render('error/error', {response, request})
 })
-
 
 
 

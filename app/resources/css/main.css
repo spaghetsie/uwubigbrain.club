@@ -148,6 +148,12 @@ main {
 	text-align: center;
 }
 
+.paragraph {
+	width: 50%;
+	min-width: 500px;
+	text-align: justify;
+}
+
 /*
 ######### FOOTER-START #########
 */
