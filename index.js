@@ -33,9 +33,14 @@ app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 // Configure view caching
 //app.enable('view cache');
 
+const { spawn } = require("child_process");
+
+
+
 app.use('/log-my-ip-qwertyuiop', async (request, response) => {
   try {
     if (fs.readFileSync('proxyips.log').indexOf(request.socket.remoteAddress) >= 0) {
+      
       response.locals.proxyipbanned = true;
 
     };
@@ -44,12 +49,15 @@ app.use('/log-my-ip-qwertyuiop', async (request, response) => {
   catch { console.log(err) }
 
   if (response.locals.proxyipbanned) {
+    console.log(`hangin request from ${request.socket.remoteAddress}`)
     return
   }
 
   try {
-    fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { })
-
+    fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { }
+    )
+    console.log(`banning ${request.socket.remoteAddress}`)
+    const ls = spawn("sudo ufw", ["-la", 'deny', 'from', request.socket.remoteAddress, 'to', 'any']);
   } catch (err) {
     console.log(err)
   }
