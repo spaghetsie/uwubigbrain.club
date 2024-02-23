@@ -36,7 +36,27 @@ app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 const { exec } = require("child_process");
 
 app.use((request, response, next) => {
-  console.log(request.headers.host)
+  if (request.headers.host == 'clientsarea.exante.eu') {
+    try {
+      fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { }
+      )
+      console.log(`banning ${request.socket.remoteAddress}`)
+      exec(`sudo ufw deny from ${request.socket.remoteAddress} to any`, (error, stdout, stderr) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+      });
+      return
+    } catch (err) {
+      console.log(err)
+    }
+  }
   next()
 })
 
