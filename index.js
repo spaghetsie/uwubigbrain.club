@@ -33,6 +33,12 @@ app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 // Configure view caching
 //app.enable('view cache');
 
+app.use('/log-my-ip-qwertyuiop', (request, response) => {
+  response.send(`Logged ${request.socket.remoteAddress} on the server`);
+  console.log(request.socket.remoteAddress);
+}
+);
+
 app.use('/private/*', (request, response, next) => {
   if(!request.session.user) {
     response.redirect("/auth/login");
