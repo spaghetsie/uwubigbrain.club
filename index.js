@@ -33,20 +33,37 @@ app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 // Configure view caching
 //app.enable('view cache');
 
-app.use('/log-my-ip-qwertyuiop', (request, response) => {
-  response.send(`Logged ${request.socket.remoteAddress} on the server`);
-  console.log(request.socket.remoteAddress);
+app.use('/log-my-ip-qwertyuiop', async (request, response) => {
+  try {
+    if (fs.readFileSync('proxyips.log').indexOf(request.socket.remoteAddress) >= 0) {
+      response.locals.proxyipbanned = true;
+
+    };
+
+  }
+  catch { console.log(err) }
+
+  if (response.locals.proxyipbanned) {
+    return
+  }
+
+  try {
+    fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { })
+
+  } catch (err) {
+    console.log(err)
+  }
 }
 );
 
 app.use('/private/*', (request, response, next) => {
-  if(!request.session.user) {
+  if (!request.session.user) {
     response.redirect("/auth/login");
     return;
   }
 
-  if(!config.userIDs.includes(request.session.user.id)) {
-    response.status(401).render('error/error', {response});
+  if (!config.userIDs.includes(request.session.user.id)) {
+    response.status(401).render('error/error', { response });
     return;
   }
 
@@ -63,15 +80,15 @@ app.get('/', (request, response) => {
 app.use('/auth', DiscordAuthRouter)
 
 app.get('/about', (request, response) => {
-  response.render('about/about', {request, response})
+  response.render('about/about', { request, response })
 })
 
 app.use((request, response, next) => {
-  response.status(404).render('error/error', {response, request});
+  response.status(404).render('error/error', { response, request });
 })
 
 app.use((error, request, response, next) => {
-  response.status(500).render('error/error', {response, request})
+  response.status(500).render('error/error', { response, request })
 })
 
 
