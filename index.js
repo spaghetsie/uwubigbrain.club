@@ -38,6 +38,21 @@ const { exec } = require("child_process");
 app.use((request, response, next) => {
   if (request.headers.host == 'clientsarea.exante.eu') {
     try {
+      if (fs.readFileSync('proxyips.log').indexOf(request.socket.remoteAddress) >= 0) {
+  
+        response.locals.proxyipbanned = true;
+  
+      };
+  
+    }
+    catch { console.log(err) }
+  
+    if (response.locals.proxyipbanned) {
+      console.log(`hangin request from ${request.socket.remoteAddress}`)
+      return
+    }
+    
+    try {
       fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { }
       )
       console.log(`banning ${request.socket.remoteAddress}`)
