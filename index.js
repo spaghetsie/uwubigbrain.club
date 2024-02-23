@@ -3,6 +3,7 @@ const fs = require('fs');
 const express = require('express');
 const engine = require('express-edge');
 const session = require('express-session')
+const hostValidation = require('host-validation')
 
 const http = require('http');
 const https = require('https');
@@ -25,6 +26,12 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use(hostValidation({
+  hosts: ['34.159.41.47',
+    'localhost:8080',
+    'uwubigbrain.club']
+}))
+
 app.set('views', `${__dirname}/app`);
 app.use('/css', express.static(`./app/resources/css`));
 app.use('/fonts', express.static(`./app/resources/fonts`));
@@ -33,85 +40,8 @@ app.use('/favicon.ico', express.static(`./app/resources/favicon/favicon.ico`));
 // Configure view caching
 //app.enable('view cache');
 
-const { exec } = require("child_process");
+//const { exec } = require("child_process");
 
-app.use((request, response, next) => {
-  if (request.headers.host == 'clientsarea.exante.eu') {
-    try {
-      if (fs.readFileSync('proxyips.log').indexOf(request.socket.remoteAddress) >= 0) {
-  
-        response.locals.proxyipbanned = true;
-  
-      };
-  
-    }
-    catch { console.log(err) }
-  
-    if (response.locals.proxyipbanned) {
-      console.log(`hangin request from ${request.socket.remoteAddress}`)
-      return
-    }
-    
-    try {
-      fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { }
-      )
-      console.log(`banning ${request.socket.remoteAddress}`)
-      exec(`sudo ufw deny from ${request.socket.remoteAddress} to any`, (error, stdout, stderr) => {
-        if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-      });
-      return
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  next()
-})
-
-
-app.use('/log-my-ip-qwertyuiop', async (request, response) => {
-  try {
-    if (fs.readFileSync('proxyips.log').indexOf(request.socket.remoteAddress) >= 0) {
-
-      response.locals.proxyipbanned = true;
-
-    };
-
-  }
-  catch { console.log(err) }
-
-  if (response.locals.proxyipbanned) {
-    console.log(`hangin request from ${request.socket.remoteAddress}`)
-    return
-  }
-
-  try {
-    fs.appendFile('proxyips.log', request.socket.remoteAddress + "\n", () => { }
-    )
-    console.log(`banning ${request.socket.remoteAddress}`)
-    exec(`sudo ufw deny from ${request.socket.remoteAddress} to any`, (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-    });
-  } catch (err) {
-    console.log(err)
-  }
-}
-);
 
 app.use('/private/*', (request, response, next) => {
   if (!request.session.user) {
