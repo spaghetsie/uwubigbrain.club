@@ -1,22 +1,22 @@
 <header>
     <nav id="navbar">
-        <a class="highlight-text navbar-el button" href="{{config.Endpoint}}">uwubigbrain.club</a>
-        <a class="navbar-el button" href="{{config.Endpoint}}/link1">Blog</a>
-        <a class="navbar-el button" href="{{config.Endpoint}}/link1">Events</a>
-        <a class="navbar-el button" href="{{config.Endpoint}}/about">About</a>
-        <a class="navbar-el button" href="{{config.Endpoint}}/link1">Discord</a>
-        <a class="navbar-el button" href="{{config.Endpoint}}/private/">secret</a>
+        <a class="highlight-text navbar-el button" href="{{config.server.Endpoint}}">uwubigbrain.club</a>
+        <a class="navbar-el button" href="{{config.server.Endpoint}}/link1">Blog</a>
+        <a class="navbar-el button" href="{{config.server.Endpoint}}/link1">Events</a>
+        <a class="navbar-el button" href="{{config.server.Endpoint}}/about">About</a>
+        <a class="navbar-el button" href="{{config.server.Endpoint}}/link1">Discord</a>
+        <a class="navbar-el button" href="{{config.server.Endpoint}}/private/">secret</a>
     </nav>
 
     @if(!request.session.user)
-        <a id="auth-button" class="highlight-text navbar-el button" href="https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri={{config.EndpointUriEncoded}}%2Fauth%2Flogin&scope=identify">Login</a>
+        <a id="auth-button" class="highlight-text navbar-el button" href="https://discord.com/api/oauth2/authorize?client_id=1209270223593799800&response_type=code&redirect_uri={{config.server.EndpointUriEncoded}}%2Fauth%2Flogin&scope=identify">Login</a>
     @else
         <span id="profile-mini" class="highlight-text navbar-el button">
             <img class="avatar" src=https://cdn.discordapp.com/avatars/{{request.session.user.id}}/{{request.session.user.avatar}}.webp?size=48">
             <!---->
         </span>
         <div id="profile-detail" class="show-on-click" hidden>
-            <a href="{{config.Endpoint}}/auth/logout" class="centered-text button">Logout</a>
+            <a href="{{config.server.Endpoint}}/auth/logout" class="centered-text button">Logout</a>
         </div>
     @end
 </header>
