@@ -1,6 +1,7 @@
 # config
 config.js
 log.txt
+events.js
 # Logs
 logs
 *.log

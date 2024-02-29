@@ -40,6 +40,10 @@ a:hover {
 	color: var(--color-tertiary);
 }
 
+li {
+	list-style: none;
+}
+
 .highlight-text {
 	font-weight: bold;
 	color: var(--color-tertiary) !important;
@@ -59,6 +63,40 @@ a:hover {
 .float-left {
 	float: left
 }
+
+.fullsize {
+	width: 100%;
+	height: 100%;
+}
+
+.large-list li {
+	padding: 15px;
+	border-radius: 5px;
+	background-color: var(--color-primary);
+	outline: 2px solid var(--color-secondary);
+	margin-bottom: 10px;
+}
+
+.event {
+	display: flex;
+	flex-direction: row;
+	height: 35px;
+}
+
+.event > * {
+	margin: 0;
+}
+
+.event h2 {
+	width: 200px;
+}
+
+.event p {
+	width: calc(100% - 400px);
+	overflow: hidden;
+	line-height: 35px;
+}
+
 
 /*
 ######### GENERAL-END #########

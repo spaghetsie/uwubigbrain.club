@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  @include('partials/head')
+<body>
+  @include('partials/header')
+  <main>
+    
+    <section class="centered">
+        <ul class="fullsize large-list">
+            
+            @each(event in events)
+                <li class="event">
+                    <h2 class="centered-text">{{ event.title }}</h2>
+                    <h2 class="centered-text">loading...</h2>
+                    <p>{{event.description}}</p>
+                </li>
+            @end
+
+        </ul>
+    </section>
+  </main>
+  <script>
+    const eventsData = {{{JSON.stringify(events); /*now this is some cursed shit; javascript injecting javascript before running javascript*/}}}
+    const eventsElements = document.getElementsByClassName("event");
+    
+    function updateDeltaTime(){
+        for(let i = 0; i < eventsData.length; i++) {
+            let timestamp = eventsData[i].timestamp;
+            let element = eventsElements[i];
+            
+            let totalSeconds = Math.trunc((new Date(timestamp*1000) - Date.now())/1000);
+
+            if(totalSeconds<=0) {
+                element.style = `outline-color: crimson; filter: drop-shadow(0 0 5px crimson);`;
+                element.children[1].textContent = "ONGOING";
+                continue;
+            }
+
+            let days = Math.trunc(totalSeconds/86400);
+            if(days){
+                element.children[1].textContent = `${days} days`;
+                continue;
+            }
+            
+            let hours = Math.trunc(totalSeconds % 86400 / 3600);
+            
+
+            let minutes = Math.trunc(totalSeconds % 86400 % 3600 / 60);
+
+            element.style = `outline-color: color-mix(in srgb, var(--color-secondary) ${Math.sqrt((hours*60+minutes)/24/60)*100}%, var(--color-tertiary)); filter: drop-shadow(0 0 ${Math.pow(1-(hours*60+minutes)/24/60, 10)*5}px var(--color-tertiary));`
+
+            if(hours){
+                element.children[1].textContent = `${hours}h ${minutes}min`;
+                continue;
+            }
+
+            let seconds = Math.trunc(totalSeconds % 86400 % 3600 % 60);
+
+            if(minutes){
+                element.children[1].textContent = `${minutes}min ${seconds}s`;
+                continue;
+            }
+
+            element.children[1].textContent = `${seconds}s`;
+        }
+    }
+    
+    setInterval(updateDeltaTime, 1000);
+
+    updateDeltaTime()
+  </script>
+  @include('partials/footer')
+</body>
+</html>

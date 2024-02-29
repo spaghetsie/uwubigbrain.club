@@ -8,9 +8,10 @@ const hostValidation = require("host-validation");
 const http = require("http");
 const https = require("https");
 
-const DiscordAuthRouter = require("./app/auth/discord");
+const DiscordAuthRouter = require("./app/auth/discord.js");
+const EventsRouter = require("./app/events/events.js");
 
-require(`./app/config/config.js`);
+config = require(`./app/config/config.js`);
 config.server.EndpointUriEncoded = encodeURIComponent(config.server.Endpoint);
 
 global.app = express();
@@ -43,27 +44,13 @@ app.use("/favicon.ico", express.static(`./app/resources/favicon/favicon.ico`));
 
 //const { exec } = require("child_process");
 
-app.use("/private/*", (request, response, next) => {
-    if (!request.session.user) {
-        response.redirect("/auth/login");
-        return;
-    }
-
-    if (!config.discord.userIDs.includes(request.session.user.id)) {
-        response.status(401).render("error/error", { response });
-        return;
-    }
-
-    //next()
-    response.send("<h1> Marta Blažková </h1>");
-    return;
-});
-
 app.get("/", (request, response) => {
     response.render("main/main", { request });
 });
 
 app.use("/auth", DiscordAuthRouter);
+
+app.use("/events", EventsRouter)
 
 app.get("/about", (request, response) => {
     response.render("about/about", { request, response });
