@@ -36,6 +36,15 @@ a {
 	text-decoration: none;
 }
 
+.page { 
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.bullet-list li::before{
+	content: " => ";
+}
+
 a:hover {
 	color: var(--color-tertiary);
 }
@@ -190,6 +199,11 @@ main {
 	width: 90%;
 	max-width: 600px;
 	text-align: justify;
+}
+
+.link-reference {
+	color: var(--color-quarternary);
+	text-decoration: underline;
 }
 
 /*
